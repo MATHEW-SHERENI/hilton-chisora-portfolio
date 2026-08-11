@@ -351,20 +351,22 @@ html[data-theme="dark"] .rolebadge svg { color: var(--navy-deep); }
 }
 
 /* Portrait */
+/* Flush to the content edge so the photo, the gold outline and the nav's
+   right-hand controls all share one alignment line. */
 .hero__portrait {
   position: relative;
-  display: flex; justify-content: center; align-items: flex-end;
+  display: flex; justify-content: flex-end; align-items: center;
 }
 /* display:flex would otherwise defeat the [hidden] fallback in script.js */
 .hero__portrait[hidden] { display: none; }
 /* Reclaim the column too, so a missing portrait leaves no dead space. */
 .hero__inner:has(.hero__portrait[hidden]) { grid-template-columns: 1fr; }
-/* Offset gold outline, echoing the brand rule in the name lockup. */
+/* Offset gold outline, echoing the brand rule in the name lockup. It sits
+   down and to the left so the image keeps the clean right edge. */
 .hero__portrait::before {
   content: ""; position: absolute; z-index: 0;
   top: 18px; bottom: -18px;
-  left: 50%; width: min(100%, 420px);
-  transform: translateX(calc(-50% + 18px));
+  right: 18px; width: min(100%, 420px);
   border: 2px solid var(--gold);
   border-radius: var(--radius-lg);
 }
@@ -727,9 +729,13 @@ html[data-theme="dark"] .contact {
    ============================================================ */
 @media (max-width: 1040px) {
   .hero__inner { grid-template-columns: 1fr; gap: 44px; }
-  .hero__portrait { order: -1; }
+  /* Single column now, so the portrait centres rather than hugging an edge. */
+  .hero__portrait { order: -1; justify-content: center; }
   .hero__portrait img { max-width: 300px; }
-  .hero__portrait::before { width: min(100%, 300px); }
+  .hero__portrait::before {
+    right: auto; left: 50%; width: min(100%, 300px);
+    transform: translateX(calc(-50% - 18px));
+  }
   .certbar__inner { grid-template-columns: repeat(3, 1fr); }
   .certbar__item { box-shadow: 1px 0 0 rgba(255,255,255,.16), 0 1px 0 rgba(255,255,255,.16); }
   .certbar__item:nth-child(3n) { box-shadow: 0 1px 0 rgba(255,255,255,.16); }
