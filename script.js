@@ -46,6 +46,15 @@
     if (window.innerWidth > 860) closeNav();
   });
 
+  /* ---------- Hero portrait ---------- */
+  // Collapse the portrait rather than showing a broken image if the file is absent.
+  const portrait = document.getElementById('heroPortrait');
+  if (portrait) {
+    const img = portrait.querySelector('img');
+    img.addEventListener('error', () => { portrait.hidden = true; });
+    if (img.complete && img.naturalWidth === 0) portrait.hidden = true;
+  }
+
   /* ---------- Nav shadow on scroll ---------- */
   const nav = document.getElementById('nav');
   const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 12);

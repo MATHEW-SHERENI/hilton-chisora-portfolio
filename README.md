@@ -27,15 +27,15 @@ python -m http.server 8000
 - **Accessible** — skip link, focus-visible rings, ARIA on the menu toggle, semantic landmarks
 - **Print stylesheet** — the page prints cleanly as a document
 
-## Before publishing
+## Two files you still need to add
 
-Two placeholders need your real values:
-
-1. **LinkedIn URL** — in [index.html](index.html), the contact section links to
-   `https://www.linkedin.com/`. Replace with your profile URL.
-2. **Résumé PDF** — the hero has a download button pointing at
-   `Hilton-Chisora-Resume.pdf`. Drop the PDF in this folder under that exact
-   filename, or remove the button.
+1. **Portrait** — the hero expects a background-removed PNG at
+   `assets/hilton.png`, roughly 760 × 950 and ideally under 300 KB. Until it
+   exists the hero collapses to a single column rather than showing a broken
+   image, so the page stays presentable either way.
+2. **Résumé PDF** — the hero download button points at
+   `Hilton Chisora Resume.pdf`. Drop the PDF in this folder under that exact
+   name, or remove the button.
 
 Optionally add a real favicon (currently an inline emoji SVG) and an
 `og:image` for link previews.
