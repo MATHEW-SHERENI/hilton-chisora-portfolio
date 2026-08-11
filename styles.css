@@ -370,13 +370,15 @@ html[data-theme="dark"] .rolebadge svg { color: var(--navy-deep); }
   border: 2px solid var(--gold);
   border-radius: var(--radius-lg);
 }
-/* 5:6 crop biased right of centre — trims the empty studio backdrop
-   beside the subject so the frame reads tight rather than half-empty. */
+/* The source file is a square, edge-to-edge composition: the folded hands run
+   to the left border and the shoulder to the right. Any portrait ratio would
+   slice one of them off, so the frame matches the photo 1:1 and nothing is
+   cropped. object-fit stays as a guard if the file is ever swapped. */
 .hero__portrait img {
   position: relative; z-index: 1;
   display: block;
   width: 100%; max-width: 420px; height: auto;
-  aspect-ratio: 5 / 6; object-fit: cover; object-position: 58% 45%;
+  aspect-ratio: 1 / 1; object-fit: cover; object-position: center;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
 }
