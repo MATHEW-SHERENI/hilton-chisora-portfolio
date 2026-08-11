@@ -42,8 +42,45 @@ Optionally add a real favicon (currently an inline emoji SVG) and an
 
 ## Deploy
 
-Any static host works. Drag the folder onto [Netlify Drop](https://app.netlify.com/drop),
-or push to GitHub and enable Pages (Settings → Pages → deploy from branch, root).
+Hosted on **Cloudflare Pages**, deployed by GitHub Actions
+([.github/workflows/deploy.yml](.github/workflows/deploy.yml)).
+
+Every push runs two checks — HTML validation (blocking) and a link check
+(reporting only). A green validation on `main` deploys to production; a pull
+request deploys to a preview URL instead.
+
+### One-time setup
+
+1. **Create an API token** at
+   [dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens)
+   → *Create Token* → *Custom token*, with the permission
+   **Account → Cloudflare Pages → Edit**.
+
+2. **Copy your account ID** from the Cloudflare dashboard sidebar
+   (Workers & Pages → *Account details*).
+
+3. **Create the Pages project** — this also verifies the token works:
+
+   ```bash
+   CLOUDFLARE_ACCOUNT_ID=<account-id> CLOUDFLARE_API_TOKEN=<token> \
+     npx wrangler pages project create hilton-chisora-portfolio \
+     --production-branch=main
+   ```
+
+4. **Store the credentials as repository secrets:**
+
+   ```bash
+   gh secret set CLOUDFLARE_ACCOUNT_ID
+   gh secret set CLOUDFLARE_API_TOKEN
+   ```
+
+The project name is set once in the workflow's `CF_PAGES_PROJECT` env var; it
+must match the name used in step 3.
+
+### Custom domain
+
+Cloudflare serves the site at `hilton-chisora-portfolio.pages.dev`. To use your
+own domain, add it under Workers & Pages → the project → *Custom domains*.
 
 ## Editing content
 

@@ -1,0 +1,87 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CF_PAGES_PROJECT: hilton-chisora-portfolio
+
+jobs:
+  validate:
+    name: Validate HTML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npx --yes html-validate index.html
+
+  links:
+    name: Check links
+    runs-on: ubuntu-latest
+    # Reports broken links without blocking the deploy. Drop this line once the
+    # résumé PDF is in place and the LinkedIn placeholder is replaced.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          # linkedin.com serves HTTP 999 to non-browser clients, so it can never pass.
+          args: >-
+            --no-progress
+            --exclude '^https://www\.linkedin\.com'
+            index.html README.md
+          fail: true
+
+  deploy:
+    name: Deploy to Cloudflare Pages
+    needs: validate
+    runs-on: ubuntu-latest
+    # Forked PRs cannot read repository secrets, so skip the deploy for them.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # Cloudflare serves whatever is uploaded, so stage only the site itself.
+      - name: Stage site
+        run: |
+          mkdir -p dist
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.htmlvalidate.json' \
+            --exclude='README.md' \
+            --exclude='dist' \
+            ./ dist/
+          ls -la dist
+
+      - name: Deploy
+        id: deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Anything other than the production branch lands as a preview deployment.
+          command: >-
+            pages deploy dist
+            --project-name=${{ env.CF_PAGES_PROJECT }}
+            --branch=${{ github.head_ref || github.ref_name }}
+
+      - name: Report deployment URL
+        run: |
+          {
+            echo "### Deployed to Cloudflare Pages"
+            echo ""
+            echo "- ${{ steps.deploy.outputs.deployment-url }}"
+          } >> "$GITHUB_STEP_SUMMARY"
