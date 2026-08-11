@@ -27,18 +27,19 @@ python -m http.server 8000
 - **Accessible** — skip link, focus-visible rings, ARIA on the menu toggle, semantic landmarks
 - **Print stylesheet** — the page prints cleanly as a document
 
-## Images you still need to add
+## Images
 
-Both paths are already referenced in [index.html](index.html) — drop the files
-in and they light up with no code change.
+| Path | Purpose |
+| --- | --- |
+| `assets/images/hiltonprofilepic.jpg` | Hero portrait, framed square |
+| `assets/images/hiltonprofilepic1.jpg` | Social link preview (`og:image`) |
 
-| Path | Purpose | Notes |
-| --- | --- | --- |
-| `assets/hilton.png` | Hero portrait | Studio shot, background removed. ~760 × 950, under 300 KB. Absent, the hero collapses to one column rather than breaking. |
-| `assets/hilton-office.jpg` | Social link preview | Skyline desk shot, 1200 × 630 or wider. Absent, links simply preview without an image. |
+Swapping either file in place is enough — the paths are fixed in
+[index.html](index.html). If the hero image ever fails to load, the portrait
+column collapses rather than showing a broken icon.
 
-The résumé at `Hilton-Chisora-Resume.pdf` is already wired to the hero download
-button — replace the file in place to publish a new version.
+The résumé at `Hilton-Chisora-Resume.pdf` is wired to the hero download button;
+replace the file in place to publish a new version.
 
 Optionally add a real favicon; the current one is an inline emoji SVG.
 

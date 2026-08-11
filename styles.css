@@ -349,16 +349,21 @@ html[data-theme="dark"] .rolebadge svg { color: var(--navy-deep); }
 .hero__portrait[hidden] { display: none; }
 /* Reclaim the column too, so a missing portrait leaves no dead space. */
 .hero__inner:has(.hero__portrait[hidden]) { grid-template-columns: 1fr; }
+/* Offset gold outline, echoing the brand rule in the name lockup. */
 .hero__portrait::before {
   content: ""; position: absolute; z-index: 0;
-  inset: 6% -4% 0 -4%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at 50% 45%, var(--accent-soft), transparent 68%);
+  top: 20px; bottom: -20px;
+  left: 50%; width: min(100%, 440px);
+  transform: translateX(calc(-50% + 20px));
+  border: 2px solid var(--gold);
+  border-radius: var(--radius-lg);
 }
 .hero__portrait img {
   position: relative; z-index: 1;
-  width: 100%; max-width: 460px; height: auto;
-  filter: drop-shadow(0 26px 44px rgba(12, 35, 80, .28));
+  width: 100%; max-width: 440px; height: auto;
+  aspect-ratio: 1 / 1; object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
 }
 
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
