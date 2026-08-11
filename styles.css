@@ -351,8 +351,8 @@ html[data-theme="dark"] .rolebadge svg { color: var(--navy-deep); }
 }
 
 /* Portrait */
-/* Flush to the content edge so the photo, the gold outline and the nav's
-   right-hand controls all share one alignment line. */
+/* Flush to the content edge so the photo and the nav's right-hand controls
+   share one alignment line. */
 .hero__portrait {
   position: relative;
   display: flex; justify-content: flex-end; align-items: center;
@@ -361,15 +361,6 @@ html[data-theme="dark"] .rolebadge svg { color: var(--navy-deep); }
 .hero__portrait[hidden] { display: none; }
 /* Reclaim the column too, so a missing portrait leaves no dead space. */
 .hero__inner:has(.hero__portrait[hidden]) { grid-template-columns: 1fr; }
-/* Offset gold outline, echoing the brand rule in the name lockup. It sits
-   down and to the left so the image keeps the clean right edge. */
-.hero__portrait::before {
-  content: ""; position: absolute; z-index: 0;
-  top: 18px; bottom: -18px;
-  right: 18px; width: min(100%, 420px);
-  border: 2px solid var(--gold);
-  border-radius: var(--radius-lg);
-}
 /* The source file is a square, edge-to-edge composition: the folded hands run
    to the left border and the shoulder to the right. Any portrait ratio would
    slice one of them off, so the frame matches the photo 1:1 and nothing is
@@ -734,10 +725,6 @@ html[data-theme="dark"] .contact {
   /* Single column now, so the portrait centres rather than hugging an edge. */
   .hero__portrait { order: -1; justify-content: center; }
   .hero__portrait img { max-width: 300px; }
-  .hero__portrait::before {
-    right: auto; left: 50%; width: min(100%, 300px);
-    transform: translateX(calc(-50% - 18px));
-  }
   .certbar__inner { grid-template-columns: repeat(3, 1fr); }
   .certbar__item { box-shadow: 1px 0 0 rgba(255,255,255,.16), 0 1px 0 rgba(255,255,255,.16); }
   .certbar__item:nth-child(3n) { box-shadow: 0 1px 0 rgba(255,255,255,.16); }
