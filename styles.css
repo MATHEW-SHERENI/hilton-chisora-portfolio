@@ -347,6 +347,8 @@ html[data-theme="dark"] .rolebadge svg { color: var(--navy-deep); }
 }
 /* display:flex would otherwise defeat the [hidden] fallback in script.js */
 .hero__portrait[hidden] { display: none; }
+/* Reclaim the column too, so a missing portrait leaves no dead space. */
+.hero__inner:has(.hero__portrait[hidden]) { grid-template-columns: 1fr; }
 .hero__portrait::before {
   content: ""; position: absolute; z-index: 0;
   inset: 6% -4% 0 -4%;
