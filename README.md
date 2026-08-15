@@ -33,6 +33,7 @@ python -m http.server 8000
 | --- | --- |
 | `assets/images/hiltonprofilepic.jpg` | Hero portrait, framed square |
 | `assets/images/hiltonprofilepic1.jpg` | Social link preview (`og:image`) |
+| `assets/images/badges/*.png` | Credly badge art, downloaded from `images.credly.com` and served locally |
 
 Swapping either file in place is enough — the paths are fixed in
 [index.html](index.html). If the hero image ever fails to load, the portrait
