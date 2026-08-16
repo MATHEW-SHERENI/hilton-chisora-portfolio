@@ -642,8 +642,8 @@ html[data-theme="dark"] .btn--primary:hover { background: var(--accent-ink); }
    own to stay legible under the dark theme. */
 .cert__plate {
   display: grid; place-items: center;
-  width: min(100%, clamp(96px, 20vw, 132px)); aspect-ratio: 1;
-  margin-bottom: 10px; padding: 10px;
+  width: min(100%, clamp(64px, 10vw, 84px)); aspect-ratio: 1;
+  margin-bottom: 8px; padding: 7px;
   background: #fff; border-radius: var(--radius);
 }
 .cert__plate img { width: 100%; height: auto; }
