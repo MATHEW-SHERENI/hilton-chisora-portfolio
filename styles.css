@@ -25,6 +25,14 @@
   --gold-soft:   #f7efd9;
   --gold-ink:    #9a7020;
 
+  /* Contact section accent */
+  --violet:      #4f30d9;
+  --violet-soft: #ebe7fd;
+  --violet-ink:  #3c22ab;
+
+  --ok:          #157f4c;
+  --err:         #b3261e;
+
   --code-bg:     #12161c;
   --code-text:   #d6dbe4;
 
@@ -68,6 +76,13 @@ html[data-theme="dark"] {
   --gold:        #dcae4e;
   --gold-soft:   #2a2312;
   --gold-ink:    #eec778;
+
+  --violet:      #a693ff;
+  --violet-soft: #221c46;
+  --violet-ink:  #c0b1ff;
+
+  --ok:          #58d39a;
+  --err:         #f2837c;
 
   --code-bg:     #0a0d11;
   --code-text:   #d6dbe4;
@@ -707,56 +722,130 @@ html[data-theme="dark"] .btn--primary:hover { background: var(--accent-ink); }
 .memberships__date { margin-top: 4px; font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); }
 
 /* ---------- Contact ---------- */
-/* Deep navy panel — bookends the certification bar and closes the page
-   on something other than another pale band. */
-.contact {
-  background: linear-gradient(115deg, var(--navy-deep), #17417f 58%, #235aa6);
-  border-top: 0;
-  color: #fff;
-}
-html[data-theme="dark"] .contact {
-  background: linear-gradient(115deg, #071223, #12305c 58%, #1a3f74);
-}
-.contact__inner { max-width: 1000px; text-align: center; }
-.contact .section__kicker { color: var(--gold); }
+/* ---------- Contact ---------- */
+.contact { background: var(--bg-alt); }
+.contact__inner { max-width: 1080px; }
+.contact .section__kicker,
+.contact__title,
+.contact__lede { text-align: center; }
+.contact .section__kicker { color: var(--violet); }
 .contact__title {
   margin-top: 4px;
   font-family: var(--font-serif);
   font-size: clamp(2.1rem, 5vw, 3.1rem);
   font-weight: 600; letter-spacing: -.035em;
-  color: #fff;
 }
+.contact__title span { color: var(--violet); }
 .contact__lede {
-  max-width: 56ch; margin: 16px auto 0;
-  font-size: 1.03rem; color: rgba(255, 255, 255, .74);
+  max-width: 58ch; margin: 16px auto 0;
+  font-size: 1.03rem; color: var(--text-muted);
 }
-.contact__links {
-  display: flex; flex-wrap: wrap; justify-content: center;
-  gap: 14px; margin-top: var(--block-gap); text-align: left;
+.contact__grid {
+  display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: clamp(30px, 4.4vw, 60px); align-items: start;
+  margin-top: var(--block-gap);
 }
-.clink {
-  flex: 1 1 285px; max-width: 330px;
-  display: flex; align-items: center; gap: 15px;
-  padding: 18px 22px;
-  background: rgba(255, 255, 255, .07);
-  border: 1px solid rgba(255, 255, 255, .17);
-  border-radius: var(--radius);
-  backdrop-filter: blur(2px);
-  transition: transform .25s var(--ease), background-color .25s, border-color .25s;
+
+/* Left column — details and social links */
+.cinfo__title {
+  margin-bottom: 24px; text-align: center;
+  font-size: 1.16rem; letter-spacing: -.02em;
 }
-.clink:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, .12);
-  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+.cinfo__title--social { margin-top: 42px; }
+.cinfo__list { display: grid; gap: 20px; }
+.cinfo__list li { display: flex; align-items: center; gap: 16px; }
+.cinfo__icon {
+  flex: none; display: grid; place-items: center;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--violet-soft); color: var(--violet);
 }
-.clink svg { flex: none; width: 21px; height: 21px; color: var(--gold); }
-.clink span { display: grid; font-size: 15px; font-weight: 500; min-width: 0; overflow-wrap: anywhere; }
-.clink b {
-  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
-  letter-spacing: .09em; text-transform: uppercase;
-  color: rgba(255, 255, 255, .58); margin-bottom: 2px;
+.cinfo__icon svg {
+  width: 20px; height: 20px;
+  fill: none; stroke: currentColor; stroke-width: 1.7;
+  stroke-linecap: round; stroke-linejoin: round;
 }
-.contact :focus-visible { outline-color: var(--gold); }
+.cinfo__text { display: grid; gap: 3px; min-width: 0; }
+.cinfo__text b { font-size: 14.5px; font-weight: 600; }
+.cinfo__text a,
+.cinfo__text > span { font-size: 14.5px; color: var(--text-muted); overflow-wrap: anywhere; }
+.cinfo__text a { transition: color .2s; }
+.cinfo__text a:hover { color: var(--violet); }
+
+.socials { display: flex; justify-content: center; gap: 14px; }
+.socials a {
+  display: grid; place-items: center;
+  width: 42px; height: 42px; border-radius: 11px;
+  color: var(--text-muted);
+  transition: color .25s, background-color .25s, transform .25s var(--ease);
+}
+.socials a:hover { color: var(--violet); background: var(--violet-soft); transform: translateY(-2px); }
+.socials svg {
+  width: 21px; height: 21px;
+  fill: none; stroke: currentColor; stroke-width: 1.7;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* Right column — message form */
+.cform-card {
+  padding: clamp(26px, 3.2vw, 40px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.cform__title {
+  margin-bottom: 26px; text-align: center;
+  font-size: 1.32rem; letter-spacing: -.025em;
+}
+.field { margin-bottom: 18px; }
+.field label {
+  display: block; margin-bottom: 8px; text-align: center;
+  font-size: 13.5px; font-weight: 600;
+}
+.field input,
+.field textarea {
+  width: 100%; padding: 13px 16px;
+  font: inherit; font-size: 15px; color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--line); border-radius: 10px;
+  transition: border-color .2s, box-shadow .2s, background-color .2s;
+}
+.field textarea { min-height: 112px; resize: vertical; }
+.field input::placeholder,
+.field textarea::placeholder { color: var(--text-faint); }
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  background: var(--surface);
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--violet) 20%, transparent);
+}
+.cform__submit {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; margin-top: 8px; padding: 14px 20px;
+  font: inherit; font-size: 15px; font-weight: 600; color: #fff;
+  background: var(--violet);
+  border: 0; border-radius: 999px; cursor: pointer;
+  transition: background-color .25s, transform .2s var(--ease), opacity .2s;
+}
+.cform__submit:hover { background: var(--violet-ink); transform: translateY(-2px); }
+/* The dark theme's violet is light, so the label flips to dark ink. */
+html[data-theme="dark"] .cform__submit { color: #14112b; }
+.cform__submit[disabled] { opacity: .6; cursor: progress; transform: none; }
+.cform__submit svg {
+  width: 17px; height: 17px;
+  fill: none; stroke: currentColor; stroke-width: 1.9;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.cform__status {
+  margin-top: 14px; min-height: 1.3em;
+  text-align: center; font-size: 13.5px; color: var(--text-muted);
+}
+.cform__status[data-state="ok"] { color: var(--ok); }
+.cform__status[data-state="error"] { color: var(--err); }
+
+.contact :focus-visible { outline-color: var(--violet); }
 
 /* ---------- Footer ---------- */
 .footer { padding: 26px 0; border-top: 1px solid var(--line); background: var(--bg); }
@@ -823,7 +912,7 @@ html[data-theme="dark"] .contact {
   .projects { grid-template-columns: 1fr; }
   .skills { grid-template-columns: 1fr; gap: 26px; }
   .certs { grid-template-columns: 1fr; }
-  .clink { flex: 1 1 100%; max-width: none; }
+  .contact__grid { grid-template-columns: 1fr; }
 
   .timeline { padding-left: 26px; }
   .timeline::before { left: 5px; }
@@ -851,11 +940,11 @@ html[data-theme="dark"] .contact {
   body { background: #fff; color: #000; }
   .section, .hero { padding: 24px 0; }
   .reveal { opacity: 1; transform: none; }
-  /* The navy contact panel would print as white-on-white. */
+  /* A form is useless on paper; the contact details are not. */
+  .cform-card { display: none; }
   .contact { background: none; color: #000; }
-  .contact__title { color: #000; }
+  .contact__grid { grid-template-columns: 1fr; }
+  .contact__title span, .contact .section__kicker { color: #000; }
   .contact__lede { color: #333; }
-  .clink { background: none; border-color: #bbb; }
-  .clink b { color: #555; }
-  .clink svg, .contact .section__kicker { color: #000; }
+  .cinfo__icon { background: none; color: #000; }
 }

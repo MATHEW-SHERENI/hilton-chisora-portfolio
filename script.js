@@ -138,6 +138,61 @@
     sections.forEach((s) => spy.observe(s));
   }
 
+  /* ---------- Contact form ---------- */
+  // Posted with fetch() so the visitor never leaves the page. FormSubmit relays
+  // to the address baked into the endpoint — see README.
+  const contactForm = document.getElementById('contactForm');
+
+  if (contactForm) {
+    const status = document.getElementById('contactStatus');
+    const submit = document.getElementById('contactSubmit');
+    const label = submit.querySelector('span');
+    const idleLabel = label.textContent;
+
+    const say = (message, state) => {
+      status.textContent = message;
+      if (state) status.dataset.state = state;
+      else delete status.dataset.state;
+    };
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!contactForm.reportValidity()) return;
+
+      const data = Object.fromEntries(new FormData(contactForm));
+      data._subject = `Portfolio message from ${data.name}`;
+      data._template = 'table';
+      data._captcha = 'false';
+
+      submit.disabled = true;
+      label.textContent = 'Sending…';
+      say('');
+
+      try {
+        const res = await fetch(contactForm.dataset.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+
+        // FormSubmit returns success as the string "true".
+        if (res.ok && String(result.success) === 'true') {
+          contactForm.reset();
+          say('Thanks — your message is on its way. I’ll reply shortly.', 'ok');
+        } else {
+          say(result.message || 'Something went wrong. Please email chisorahilton@gmail.com instead.', 'error');
+        }
+      } catch {
+        say('Network error. Please email chisorahilton@gmail.com instead.', 'error');
+      } finally {
+        submit.disabled = false;
+        label.textContent = idleLabel;
+      }
+    });
+  }
+
   /* ---------- Footer year ---------- */
   document.getElementById('year').textContent = new Date().getFullYear();
 })();

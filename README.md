@@ -44,6 +44,26 @@ replace the file in place to publish a new version.
 
 Optionally add a real favicon; the current one is an inline emoji SVG.
 
+## Contact form
+
+The message form submits with `fetch()` — the visitor stays on the page and sees
+an inline status line. Delivery goes through [FormSubmit](https://formsubmit.co),
+which needs no account and no API key: the destination address is the endpoint.
+
+```
+data-endpoint="https://formsubmit.co/ajax/chisorahilton@gmail.com"
+```
+
+That attribute sits on the form in [index.html](index.html). Change the address
+to change the inbox — that is the whole configuration.
+
+**One-time activation.** The first message ever sent triggers a confirmation
+email from FormSubmit to that address. Click the link in it once and the form is
+live; until then messages are held rather than delivered. Submit the form
+yourself after the first deploy to trigger it.
+
+A hidden `_honey` field traps bots that fill in every input they find.
+
 ## Deploy
 
 Hosted on **Cloudflare Pages**, deployed by GitHub Actions
